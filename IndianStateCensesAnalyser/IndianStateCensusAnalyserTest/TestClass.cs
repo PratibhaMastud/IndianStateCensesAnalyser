@@ -15,14 +15,20 @@ namespace IndianStateCensusAnalyserTest
         static string wrongIndianStateCensusFileType = @"C:\Users\prattii\Desktop\IndianStatesAnalyserProject\IndianStateCensesAnalyser\IndianStateCensusAnalyserTest\wrongIndianStateCensusFileType.txt";
         static string delimiterIndianCensusData = @"C:\Users\prattii\Desktop\IndianStatesAnalyserProject\IndianStateCensesAnalyser\IndianStateCensusAnalyserTest\CsvFiles\DelimiterIndianCensusData.csv";
         static string headerIndianStateCensusData = @"C:\Users\prattii\Desktop\IndianStatesAnalyserProject\IndianStateCensesAnalyser\IndianStateCensusAnalyserTest\CsvFiles\HeaderIndianStateData.csv";
+
+        static string indianStateCodeHeader = "﻿SrNo,State Name,TIN,StateCode";
+        static string indianStateCodeFilePath = @"C:\Users\prattii\Desktop\IndianStatesAnalyserProject\IndianStateCensesAnalyser\IndianStateCensusAnalyserTest\CsvFiles\IndianStateCode.csv";
+
         CensusAnalyser censusAnalyser;
         Dictionary<string, CensusDTO> totalRecord;
+        Dictionary<string, CensusDTO> stateRecord;
 
         [SetUp]
         public void Setup()
         {
             censusAnalyser = new CensusAnalyser();
             totalRecord = new Dictionary<string, CensusDTO>();
+            stateRecord = new Dictionary<string, CensusDTO>();
         }
 
         /// <summary>
@@ -73,6 +79,16 @@ namespace IndianStateCensusAnalyserTest
         {
             var censusException = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(Country.INDIA, headerIndianStateCensusData, wrongStateCensusHeaders));
             Assert.AreEqual(CensusAnalyserException.ExceptionType.INCORRECT_HEADER, censusException.exceptionType);
+        }
+
+        /// <summary>
+        /// Test Case 2.1 Given the indian state code file when reader should return state code data count.
+        /// </summary>
+        [Test]
+        public void GivenIndianStateCodeCsvFile_WhenRead_ThenShouldReturnStateCodeDataCount()
+        {
+            stateRecord = censusAnalyser.LoadCensusData(Country.INDIA, indianStateCodeFilePath, indianStateCodeHeader);
+            Assert.AreEqual(37, stateRecord.Count);
         }
     }
 }
