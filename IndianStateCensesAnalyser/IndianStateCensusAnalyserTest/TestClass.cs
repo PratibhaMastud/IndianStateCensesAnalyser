@@ -11,13 +11,14 @@ namespace IndianStateCensusAnalyserTest
         static string indianStateCensusHeaders = "﻿State,Population,AreaInSqKm,DensityPerSqKm";
         static string wrongStateCensusHeaders = "﻿DensityPerSqKm,Population,AreaInSqKm,State";
         static string indianStateCensusFilePath = @"C:\Users\prattii\Desktop\IndianStatesAnalyserProject\IndianStateCensesAnalyser\IndianStateCensusAnalyserTest\CsvFiles\IndianStateCensusData.csv";
-        static string wrongIndianStateCensusFilePath = @"C:\Users\hp\source\repos\IndianStateDemo\CensusAnalyserTests\CSVFile\WrongIndianStateCensusData.csv";
+        static string wrongIndianStateCensusFilePath = @"C:\Users\prattii\source\repos\IndianStateDemo\CensusAnalyserTests\CSVFile\WrongIndianStateCensusData.csv";
         static string wrongIndianStateCensusFileType = @"C:\Users\prattii\Desktop\IndianStatesAnalyserProject\IndianStateCensesAnalyser\IndianStateCensusAnalyserTest\wrongIndianStateCensusFileType.txt";
         static string delimiterIndianCensusData = @"C:\Users\prattii\Desktop\IndianStatesAnalyserProject\IndianStateCensesAnalyser\IndianStateCensusAnalyserTest\CsvFiles\DelimiterIndianCensusData.csv";
         static string headerIndianStateCensusData = @"C:\Users\prattii\Desktop\IndianStatesAnalyserProject\IndianStateCensesAnalyser\IndianStateCensusAnalyserTest\CsvFiles\HeaderIndianStateData.csv";
 
         static string indianStateCodeHeader = "﻿SrNo,State Name,TIN,StateCode";
         static string indianStateCodeFilePath = @"C:\Users\prattii\Desktop\IndianStatesAnalyserProject\IndianStateCensesAnalyser\IndianStateCensusAnalyserTest\CsvFiles\IndianStateCode.csv";
+        static string wrongIndianStateCodeFilePath = @"C:\Users\prattii\source\repos\IndianStateDemo\CensusAnalyserTests\CSVFile\WrongIndianStateCensusData.csv";
 
         CensusAnalyser censusAnalyser;
         Dictionary<string, CensusDTO> totalRecord;
@@ -89,6 +90,16 @@ namespace IndianStateCensusAnalyserTest
         {
             stateRecord = censusAnalyser.LoadCensusData(Country.INDIA, indianStateCodeFilePath, indianStateCodeHeader);
             Assert.AreEqual(37, stateRecord.Count);
+        }
+
+        /// <summary>
+        /// Test Case 2.2 Given the indian state code file when incorrect then return File not found exception.
+        /// </summary>
+        [Test]
+        public void GivenIndianStateCodeCsvFile_WhenIncorrect_ThenShouldReturnFileNotFoundException()
+        {
+            var censusException = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(Country.INDIA, wrongIndianStateCodeFilePath, indianStateCodeHeader));
+            Assert.AreEqual(CensusAnalyserException.ExceptionType.FILE_NOT_FOUND, censusException.exceptionType);
         }
     }
 }
