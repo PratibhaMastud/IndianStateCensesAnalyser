@@ -112,5 +112,15 @@ namespace IndianStateCensusAnalyserTest
             var censusException = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(Country.INDIA, wrongIndianStateCensusFileType, indianStateCodeHeader));
             Assert.AreEqual(CensusAnalyserException.ExceptionType.INVALID_FILE_TYPE, censusException.exceptionType);
         }
+
+        /// <summary>
+        /// Test Case 2.4 Given the indian state code csv file when correct but delimiter incoorect then return incorrect delimiter exception.
+        /// </summary>
+        [Test]
+        public void GivenIndianStateCodeCsvFileCorrect_WhenDelimiterIncorrect_ThenShouldReturnInvalidDelimiterException()
+        {
+            var censusException = Assert.Throws<CensusAnalyserException>(() => censusAnalyser.LoadCensusData(Country.INDIA, delimiterIndianStateCodeFile, indianStateCodeHeader));
+            Assert.AreEqual(CensusAnalyserException.ExceptionType.INCORRECT_DELIMITER, censusException.exceptionType);
+        }
     }
 }
